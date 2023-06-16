@@ -32,5 +32,3 @@ php artisan make:model Post
 ```bash
 php artisan make:controller PostController
 ```
-
-# laravel-blog
