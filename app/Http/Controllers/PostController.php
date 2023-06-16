@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(10);
         return view('posts.index', ['posts' => $posts]);
     }
 
@@ -33,6 +33,7 @@ class PostController extends Controller
         $validated = $validator->validated();
         $newPost = Post::create($validated);
 
-        return redirect()->route('posts.index');
+        session()->flash('success', 'Data has been stored successfully.');
+        return redirect()->route('posts.index')->with('toast', true);
     }
 }
