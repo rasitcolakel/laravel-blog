@@ -79,3 +79,28 @@ php artisan make:seeder PostSeeder
 php artisan db:seed
 ```
 
+
+## laravel/ui
+
+### Installing laravel/ui
+```bash
+composer require laravel/ui
+```
+
+### Installing auth with laravel/ui and bootstrap
+```bash
+php artisan ui bootstrap --auth
+```
+
+**Then**, you can run the npm command to install the dependencies
+```bash
+npm install && npm run dev
+```
+
+**Before that**, you need to migrate the database
+```bash
+php artisan migrate
+```
+
+
+
