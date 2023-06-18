@@ -19,6 +19,8 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
+            // add user_id to the post with random user_id
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }

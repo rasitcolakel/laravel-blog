@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(10);
-        return view('posts.index', ['posts' => $posts]);
+        $posts = Cache::remember('posts', 60, function () {
+            return Post::paginate(10);
+        });
+        return view('posts.index',
+            [
+                'posts' => $posts
+            ]);
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', ['post' => $post]);
     }
 
     public function create()

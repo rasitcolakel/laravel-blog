@@ -10,14 +10,16 @@
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Created By</th>
             </tr>
             </thead>
             <tbody>
             @foreach($posts as $post)
                 <tr>
-                    <th scope="row">{{$post["id"]}}</th>
+                    <th scope="row"><a href="{{ route('posts.show', ['post' => $post->id]) }}">{{$post["id"]}}</a></th>
                     <td>{{$post["title"]}}</td>
                     <td>{{$post["description"]}}</td>
+                    <td>{{$post["user"]["name"]}}</td>
                 </tr>
             @endforeach
 
