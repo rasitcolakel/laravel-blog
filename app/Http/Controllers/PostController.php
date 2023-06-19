@@ -9,10 +9,14 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Cache::remember('posts', 60, function () {
-            return Post::paginate(10);
+        $order_by = $request->get('order_by', 'created_at');
+        $order_direction = $request->get('order_direction', 'desc');
+        $page = $request->get('page', 1);
+        $cacheKey = 'posts-' . $page . '-' . $order_by . '-' . $order_direction;
+        $posts = Cache::remember($cacheKey, 2, function () use ($order_direction, $order_by) {
+            return Post::orderBy($order_by, $order_direction)->paginate(10);
         });
         return view('posts.index',
             [
@@ -42,7 +46,8 @@ class PostController extends Controller
                 ->withInput();
         }
         $validated = $validator->validated();
-        $newPost = Post::create($validated);
+        $validated['user_id'] = auth()->user()->id;
+        Post::create($validated);
 
         session()->flash('success', 'Data has been stored successfully.');
         return redirect()->route('posts.index')->with('toast', true);

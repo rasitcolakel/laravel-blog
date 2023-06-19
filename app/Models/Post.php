@@ -11,9 +11,11 @@ class Post extends Model
 
     public mixed $title;
     public mixed $description;
+
     protected $fillable = [
         'title',
         'description',
+        'user_id'
     ];
 
     public function user()
