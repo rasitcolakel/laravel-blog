@@ -3,14 +3,32 @@
 @section('title', 'Posts')
 
 @section('content')
+    @php
+        $order_by = request()->get('order_by');
+        $order_direction = request()->get('order_direction');
+        $fields = ['id' => 'ID', 'title' => 'Title', 'created_at' => 'Created At', 'user_id' => 'Author'];
+    @endphp
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="display-6">Users</h2>
+            <a class="btn btn-primary" href="{{ route('posts.create') }}">Create Post</a>
+        </div>
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Created By</th>
+                @foreach($fields as $field => $label)
+                    <th scope="col">
+                        <a href="{{ route('posts.index', ['order_by' => $field, 'order_direction' => $order_direction == 'asc' ? 'desc' : 'asc']) }}" class="d-flex justify-content-between align-items-center">
+                            <span>{{ $label }}</span>
+                            @if ($order_by == $field && $order_direction == 'asc')
+                                <i class="fas fa-arrow-up"></i>
+                            @else
+                                <i class="fas fa-arrow-down"></i>
+                            @endif
+                        </a>
+                    </th>
+                @endforeach
+
             </tr>
             </thead>
             <tbody>
